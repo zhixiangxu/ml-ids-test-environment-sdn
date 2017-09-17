@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from sklearn import ensemble
 from sklearn.metrics import accuracy_score
+from sklearn.externals import joblib
 
 DATA_PATH = os.path.join('data', 'NSL-KDD')
 TRAIN_FILE_NAME = 'kdd-train.csv'
@@ -60,8 +61,11 @@ clf = ensemble.AdaBoostClassifier()
 clf.fit(packets_arr, classification_arr)
 
 #Test classifier
-clf.predict([test_packets_arr[29]])
+pred = clf.predict(test_packets_arr)
 
 #Check accuracy
 accuracy = accuracy_score(test_classification_arr, pred)
 print(accuracy)
+
+#Save model
+joblib.dump(clf, 'adaboost-ids.pkl')
